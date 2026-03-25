@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>DevOps Lab — Free Resources</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #161e2e;
+    --border: #1f2d42;
+    --accent: #00e5ff;
+    --green: #00ff88;
+    --orange: #ff7c3a;
+    --purple: #a78bfa;
+    --pink: #f472b6;
+    --text: #e2eaf4;
+    --muted: #6b7fa3;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+font-family: ‘Syne’, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100dvh;
+padding-top: calc(var(–safe-top) + 16px);
+padding-bottom: calc(var(–safe-bottom) + 80px);
+overflow-x: hidden;
+}
+
+/* Background grid */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image:
+linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+background-size: 40px 40px;
+pointer-events: none;
+z-index: 0;
+}
+
+.container { position: relative; z-index: 1; padding: 0 16px; max-width: 430px; margin: 0 auto; }
+
+/* Header */
+.header { padding: 12px 0 20px; }
+.header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.logo {
+font-size: 11px;
+font-family: ‘JetBrains Mono’, monospace;
+color: var(–accent);
+letter-spacing: 0.15em;
+text-transform: uppercase;
+}
+.status-pill {
+display: flex; align-items: center; gap: 6px;
+background: rgba(0,255,136,0.08);
+border: 1px solid rgba(0,255,136,0.2);
+border-radius: 20px;
+padding: 4px 10px;
+font-size: 10px;
+color: var(–green);
+font-family: ‘JetBrains Mono’, monospace;
+}
+.status-dot {
+width: 6px; height: 6px;
+border-radius: 50%;
+background: var(–green);
+animation: pulse 2s infinite;
+}
+@keyframes pulse {
+0%,100% { opacity: 1; transform: scale(1); }
+50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.headline {
+font-size: 28px;
+font-weight: 800;
+line-height: 1.15;
+margin-bottom: 6px;
+}
+.headline span { color: var(–accent); }
+.subhead {
+font-size: 13px;
+color: var(–muted);
+font-family: ‘JetBrains Mono’, monospace;
+line-height: 1.5;
+}
+
+/* Phase nav tabs */
+.phase-nav {
+display: flex;
+gap: 6px;
+overflow-x: auto;
+scrollbar-width: none;
+padding: 4px 0 16px;
+}
+.phase-nav::-webkit-scrollbar { display: none; }
+.phase-tab {
+flex-shrink: 0;
+padding: 7px 14px;
+border-radius: 20px;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 0.04em;
+cursor: pointer;
+border: 1.5px solid var(–border);
+background: var(–card);
+color: var(–muted);
+transition: all 0.2s;
+white-space: nowrap;
+}
+.phase-tab.active {
+background: var(–accent);
+border-color: var(–accent);
+color: #000;
+}
+
+/* Section label */
+.section-label {
+font-size: 10px;
+font-family: ‘JetBrains Mono’, monospace;
+color: var(–muted);
+letter-spacing: 0.12em;
+text-transform: uppercase;
+margin-bottom: 10px;
+margin-top: 4px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.section-label::after {
+content: ‘’;
+flex: 1;
+height: 1px;
+background: var(–border);
+}
+
+/* Pipeline flow */
+.pipeline {
+display: flex;
+align-items: center;
+gap: 0;
+overflow-x: auto;
+scrollbar-width: none;
+padding-bottom: 4px;
+margin-bottom: 20px;
+}
+.pipeline::-webkit-scrollbar { display: none; }
+.pipe-step {
+flex-shrink: 0;
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 10px 12px;
+text-align: center;
+min-width: 76px;
+position: relative;
+cursor: pointer;
+transition: all 0.2s;
+}
+.pipe-step:active { transform: scale(0.95); }
+.pipe-step.done { border-color: var(–green); }
+.pipe-step.active-step { border-color: var(–accent); background: rgba(0,229,255,0.07); }
+.pipe-step .pipe-icon { font-size: 18px; margin-bottom: 4px; }
+.pipe-step .pipe-name { font-size: 9px; font-family: ‘JetBrains Mono’, monospace; color: var(–muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.pipe-arrow { color: var(–border); font-size: 14px; padding: 0 2px; flex-shrink: 0; }
+
+/* Resource cards */
+.resource-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 14px;
+padding: 14px 15px;
+margin-bottom: 10px;
+display: flex;
+align-items: flex-start;
+gap: 13px;
+cursor: pointer;
+transition: all 0.2s;
+text-decoration: none;
+color: inherit;
+position: relative;
+overflow: hidden;
+}
+.resource-card::before {
+content: ‘’;
+position: absolute;
+left: 0; top: 0; bottom: 0;
+width: 3px;
+border-radius: 3px 0 0 3px;
+}
+.resource-card.clr-cyan::before { background: var(–accent); }
+.resource-card.clr-green::before { background: var(–green); }
+.resource-card.clr-orange::before { background: var(–orange); }
+.resource-card.clr-purple::before { background: var(–purple); }
+.resource-card.clr-pink::before { background: var(–pink); }
+.resource-card:active { transform: scale(0.98); border-color: var(–accent); }
+
+.card-icon {
+width: 40px; height: 40px;
+border-radius: 10px;
+display: flex; align-items: center; justify-content: center;
+font-size: 20px;
+flex-shrink: 0;
+background: rgba(255,255,255,0.04);
+}
+.card-body { flex: 1; min-width: 0; }
+.card-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.card-desc { font-size: 11px; color: var(–muted); line-height: 1.5; margin-bottom: 6px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag {
+font-size: 9px;
+font-family: ‘JetBrains Mono’, monospace;
+padding: 2px 7px;
+border-radius: 20px;
+font-weight: 700;
+letter-spacing: 0.05em;
+text-transform: uppercase;
+}
+.tag-free { background: rgba(0,255,136,0.12); color: var(–green); }
+.tag-beginner { background: rgba(0,229,255,0.1); color: var(–accent); }
+.tag-intermediate { background: rgba(255,124,58,0.12); color: var(–orange); }
+.tag-advanced { background: rgba(167,139,250,0.12); color: var(–purple); }
+.tag-cert { background: rgba(244,114,182,0.12); color: var(–pink); }
+.card-arrow { font-size: 16px; color: var(–muted); flex-shrink: 0; align-self: center; }
+
+/* Roadmap track */
+.roadmap { margin-bottom: 4px; }
+.roadmap-item {
+display: flex;
+gap: 14px;
+padding-bottom: 18px;
+position: relative;
+}
+.roadmap-item::before {
+content: ‘’;
+position: absolute;
+left: 15px; top: 32px;
+width: 1px; bottom: 0;
+background: var(–border);
+}
+.roadmap-item:last-child::before { display: none; }
+.rm-dot {
+width: 30px; height: 30px;
+border-radius: 50%;
+border: 2px solid var(–border);
+display: flex; align-items: center; justify-content: center;
+font-size: 13px;
+flex-shrink: 0;
+background: var(–card);
+position: relative;
+z-index: 1;
+}
+.rm-dot.done { border-color: var(–green); background: rgba(0,255,136,0.1); }
+.rm-dot.now { border-color: var(–accent); background: rgba(0,229,255,0.1); animation: glow 2s infinite; }
+@keyframes glow {
+0%,100% { box-shadow: 0 0 0 0 rgba(0,229,255,0.4); }
+50% { box-shadow: 0 0 0 6px rgba(0,229,255,0); }
+}
+.rm-content { flex: 1; padding-top: 4px; }
+.rm-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.rm-tools { font-size: 10px; font-family: ‘JetBrains Mono’, monospace; color: var(–muted); line-height: 1.6; }
+
+/* Bottom nav */
+.bottom-nav {
+position: fixed;
+bottom: 0; left: 0; right: 0;
+padding-bottom: var(–safe-bottom);
+background: rgba(10,14,26,0.95);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+border-top: 1px solid var(–border);
+display: flex;
+z-index: 100;
+}
+.nav-btn {
+flex: 1;
+display: flex; flex-direction: column;
+align-items: center; justify-content: center;
+padding: 10px 0 12px;
+cursor: pointer;
+color: var(–muted);
+font-size: 9px;
+font-family: ‘JetBrains Mono’, monospace;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+gap: 4px;
+transition: color 0.2s;
+border: none; background: none;
+}
+.nav-btn.active { color: var(–accent); }
+.nav-btn .nav-icon { font-size: 20px; }
+
+/* Sections visibility */
+.section-content { display: none; }
+.section-content.visible { display: block; }
+
+/* Progress bar */
+.progress-wrap { margin-bottom: 18px; }
+.progress-title { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 11px; }
+.progress-title span:last-child { font-family: ‘JetBrains Mono’, monospace; color: var(–accent); }
+.progress-bar { height: 6px; background: var(–border); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(–accent), var(–green)); transition: width 0.5s ease; }
+
+/* Tip box */
+.tip-box {
+background: rgba(0,229,255,0.05);
+border: 1px solid rgba(0,229,255,0.15);
+border-radius: 12px;
+padding: 12px 14px;
+margin-bottom: 14px;
+font-size: 12px;
+color: var(–muted);
+line-height: 1.6;
+}
+.tip-box strong { color: var(–accent); }
+
+.fade-in { animation: fadeUp 0.4s ease both; }
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(12px); }
+to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+
+  <div class="header fade-in">
+    <div class="header-top">
+      <div class="logo">$ devops-lab/free</div>
+      <div class="status-pill"><div class="status-dot"></div>100% Free</div>
+    </div>
+    <div class="headline">Your <span>DevOps</span><br>Practice Lab</div>
+    <div class="subhead">End-to-end pipeline · All free tools</div>
+  </div>
+
+  <!-- PHASE TABS -->
+
+  <div class="phase-nav fade-in">
+    <div class="phase-tab active" onclick="filterPhase('all', this)">All</div>
+    <div class="phase-tab" onclick="filterPhase('plan', this)">Plan</div>
+    <div class="phase-tab" onclick="filterPhase('code', this)">Code</div>
+    <div class="phase-tab" onclick="filterPhase('build', this)">Build</div>
+    <div class="phase-tab" onclick="filterPhase('deploy', this)">Deploy</div>
+    <div class="phase-tab" onclick="filterPhase('monitor', this)">Monitor</div>
+    <div class="phase-tab" onclick="filterPhase('security', this)">Security</div>
+  </div>
+
+  <!-- BOTTOM NAV drives content -->
+
+  <div id="view-resources" class="section-content visible">
+
+```
+<!-- PIPELINE VISUAL -->
+<div class="section-label">CI/CD Pipeline</div>
+<div class="pipeline">
+  <div class="pipe-step done"><div class="pipe-icon">📋</div><div class="pipe-name">Plan</div></div>
+  <div class="pipe-arrow">›</div>
+  <div class="pipe-step done"><div class="pipe-icon">💻</div><div class="pipe-name">Code</div></div>
+  <div class="pipe-arrow">›</div>
+  <div class="pipe-step active-step"><div class="pipe-icon">⚙️</div><div class="pipe-name">Build</div></div>
+  <div class="pipe-arrow">›</div>
+  <div class="pipe-step"><div class="pipe-icon">🧪</div><div class="pipe-name">Test</div></div>
+  <div class="pipe-arrow">›</div>
+  <div class="pipe-step"><div class="pipe-icon">🚀</div><div class="pipe-name">Deploy</div></div>
+  <div class="pipe-arrow">›</div>
+  <div class="pipe-step"><div class="pipe-icon">📡</div><div class="pipe-name">Monitor</div></div>
+</div>
+
+<!-- RESOURCES -->
+<div class="section-label">Free Resources</div>
+
+<div id="cards-container">
+
+  <!-- PLAN -->
+  <a class="resource-card clr-purple" data-phase="plan" href="https://www.atlassian.com/agile" target="_blank">
+    <div class="card-icon">📋</div>
+    <div class="card-body">
+      <div class="card-title">Atlassian Agile Coach</div>
+      <div class="card-desc">Learn Scrum, Kanban & Jira free. Plan sprints like a real team.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-purple" data-phase="plan" href="https://trello.com" target="_blank">
+    <div class="card-icon">🗂️</div>
+    <div class="card-body">
+      <div class="card-title">Trello (Free tier)</div>
+      <div class="card-desc">Kanban board to manage your DevOps learning tasks & sprints.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <!-- CODE -->
+  <a class="resource-card clr-cyan" data-phase="code" href="https://github.com" target="_blank">
+    <div class="card-icon">🐙</div>
+    <div class="card-body">
+      <div class="card-title">GitHub</div>
+      <div class="card-desc">Host repos, practice Git workflows, use GitHub Actions for free CI/CD.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-cyan" data-phase="code" href="https://learngitbranching.js.org" target="_blank">
+    <div class="card-icon">🌿</div>
+    <div class="card-body">
+      <div class="card-title">Learn Git Branching</div>
+      <div class="card-desc">Visual, interactive Git exercises. Master branches, merges & rebases.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <!-- BUILD -->
+  <a class="resource-card clr-orange" data-phase="build" href="https://docs.github.com/en/actions" target="_blank">
+    <div class="card-icon">⚡</div>
+    <div class="card-body">
+      <div class="card-title">GitHub Actions</div>
+      <div class="card-desc">Build full CI pipelines free. 2,000 mins/month on free tier.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-orange" data-phase="build" href="https://www.docker.com/play-with-docker" target="_blank">
+    <div class="card-icon">🐳</div>
+    <div class="card-body">
+      <div class="card-title">Play with Docker</div>
+      <div class="card-desc">Browser-based Docker sandbox. No install needed. Practice containers now.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-orange" data-phase="build" href="https://killercoda.com" target="_blank">
+    <div class="card-icon">🖥️</div>
+    <div class="card-body">
+      <div class="card-title">Killercoda</div>
+      <div class="card-desc">Free browser labs for Docker, Kubernetes, Ansible, Jenkins & more.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <!-- DEPLOY -->
+  <a class="resource-card clr-green" data-phase="deploy" href="https://render.com" target="_blank">
+    <div class="card-icon">🚀</div>
+    <div class="card-body">
+      <div class="card-title">Render (Free tier)</div>
+      <div class="card-desc">Deploy web apps, APIs & databases free. Practice real deployments.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-green" data-phase="deploy" href="https://vercel.com" target="_blank">
+    <div class="card-icon">▲</div>
+    <div class="card-body">
+      <div class="card-title">Vercel</div>
+      <div class="card-desc">Git-push deploys, preview environments & edge networking. 100% free for personal.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-green" data-phase="deploy" href="https://play.instruqt.com/public" target="_blank">
+    <div class="card-icon">☸️</div>
+    <div class="card-body">
+      <div class="card-title">Instruqt — K8s Labs</div>
+      <div class="card-desc">Free Kubernetes sandbox environments. Practice pod deployments & services.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-advanced">Advanced</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-green" data-phase="deploy" href="https://labs.play-with-k8s.com" target="_blank">
+    <div class="card-icon">🎮</div>
+    <div class="card-body">
+      <div class="card-title">Play with Kubernetes</div>
+      <div class="card-desc">4-hour free Kubernetes cluster in your browser. Multi-node practice.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-advanced">Advanced</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <!-- MONITOR -->
+  <a class="resource-card clr-pink" data-phase="monitor" href="https://grafana.com/grafana/dashboards" target="_blank">
+    <div class="card-icon">📊</div>
+    <div class="card-body">
+      <div class="card-title">Grafana Cloud Free</div>
+      <div class="card-desc">10K metrics, 50GB logs free. Build real monitoring dashboards.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-pink" data-phase="monitor" href="https://prometheus.io" target="_blank">
+    <div class="card-icon">🔥</div>
+    <div class="card-body">
+      <div class="card-title">Prometheus</div>
+      <div class="card-desc">Open-source metrics & alerting. Run locally, pairs with Grafana.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <!-- SECURITY -->
+  <a class="resource-card clr-purple" data-phase="security" href="https://tryhackme.com" target="_blank">
+    <div class="card-icon">🔐</div>
+    <div class="card-body">
+      <div class="card-title">TryHackMe</div>
+      <div class="card-desc">Free DevSecOps rooms. Learn SAST, DAST & container security hands-on.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-purple" data-phase="security" href="https://snyk.io" target="_blank">
+    <div class="card-icon">🛡️</div>
+    <div class="card-body">
+      <div class="card-title">Snyk Free</div>
+      <div class="card-desc">Scan your code & Docker images for vulnerabilities. 200 tests/month free.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <!-- LEARNING -->
+  <a class="resource-card clr-cyan" data-phase="all" href="https://www.freecodecamp.org/news/devops-engineering-course-for-beginners/" target="_blank">
+    <div class="card-icon">📚</div>
+    <div class="card-body">
+      <div class="card-title">freeCodeCamp DevOps</div>
+      <div class="card-desc">Full DevOps course on YouTube. Linux, Docker, K8s, CI/CD — free forever.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-cyan" data-phase="all" href="https://www.theodinproject.com" target="_blank">
+    <div class="card-icon">⚔️</div>
+    <div class="card-body">
+      <div class="card-title">The Odin Project</div>
+      <div class="card-desc">Project-based learning with Git, CLI & deployment skills built in.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="resource-card clr-pink" data-phase="all" href="https://roadmap.sh/devops" target="_blank">
+    <div class="card-icon">🗺️</div>
+    <div class="card-body">
+      <div class="card-title">roadmap.sh/devops</div>
+      <div class="card-desc">The definitive visual DevOps learning roadmap. Know exactly what to learn next.</div>
+      <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span><span class="tag tag-cert">Must-have</span></div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+</div><!-- end cards-container -->
+```
+
+  </div><!-- end view-resources -->
+
+  <!-- ROADMAP VIEW -->
+
+  <div id="view-roadmap" class="section-content">
+    <div class="section-label">Your Learning Path</div>
+
+```
+<div class="progress-wrap">
+  <div class="progress-title"><span>Overall Progress</span><span>Phase 3 / 8</span></div>
+  <div class="progress-bar"><div class="progress-fill" style="width: 35%"></div></div>
+</div>
+
+<div class="tip-box">
+  <strong>💡 Pro tip:</strong> Spend 2 weeks per phase. Build a small project after each one to reinforce the skills. Aim for a working CI/CD pipeline by Phase 6.
+</div>
+
+<div class="roadmap">
+
+  <div class="roadmap-item">
+    <div class="rm-dot done">✓</div>
+    <div class="rm-content">
+      <div class="rm-title">Phase 1 — Linux & CLI</div>
+      <div class="rm-tools">Bash · File system · Permissions · SSH · Cron</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="rm-dot done">✓</div>
+    <div class="rm-content">
+      <div class="rm-title">Phase 2 — Git & Version Control</div>
+      <div class="rm-tools">GitHub · Branching · PRs · Git Flow</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="rm-dot now">⚡</div>
+    <div class="rm-content">
+      <div class="rm-title">Phase 3 — Containers</div>
+      <div class="rm-tools">Docker · docker-compose · Images · Registries</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="rm-dot"></div>
+    <div class="rm-content">
+      <div class="rm-title">Phase 4 — CI/CD Pipelines</div>
+      <div class="rm-tools">GitHub Actions · Jenkins · Pipeline YAML</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="rm-dot"></div>
+    <div class="rm-content">
+      <div class="rm-title">Phase 5 — Infrastructure as Code</div>
+      <div class="rm-tools">Terraform · Ansible · AWS Free Tier</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="rm-dot"></div>
+    <div class="rm-content">
+      <div class="rm-title">Phase 6 — Kubernetes</div>
+      <div class="rm-tools">Pods · Deployments · Services · Helm</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="rm-dot"></div>
+    <div class="rm-content">
+      <div class="rm-title">Phase 7 — Monitoring & Observability</div>
+      <div class="rm-tools">Prometheus · Grafana · Loki · Alerts</div>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="rm-dot"></div>
+    <div class="rm-content">
+      <div class="rm-title">Phase 8 — DevSecOps</div>
+      <div class="rm-tools">SAST · DAST · Snyk · Trivy · Secrets mgmt</div>
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- CLOUD LABS VIEW -->
+
+  <div id="view-labs" class="section-content">
+    <div class="section-label">Instant Cloud Sandboxes</div>
+
+```
+<div class="tip-box">
+  <strong>⚡ No install needed.</strong> These run fully in your browser — perfect for iPhone practice anywhere.
+</div>
+
+<a class="resource-card clr-cyan" href="https://killercoda.com" target="_blank">
+  <div class="card-icon">🖥️</div>
+  <div class="card-body">
+    <div class="card-title">Killercoda</div>
+    <div class="card-desc">Linux, K8s, Docker, Terraform labs. Full terminal in browser.</div>
+    <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+  </div>
+  <div class="card-arrow">›</div>
+</a>
+
+<a class="resource-card clr-orange" href="https://www.docker.com/play-with-docker" target="_blank">
+  <div class="card-icon">🐳</div>
+  <div class="card-body">
+    <div class="card-title">Play with Docker</div>
+    <div class="card-desc">4-hour Docker playground. Spin up containers instantly, no account needed.</div>
+    <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+  </div>
+  <div class="card-arrow">›</div>
+</a>
+
+<a class="resource-card clr-green" href="https://labs.play-with-k8s.com" target="_blank">
+  <div class="card-icon">☸️</div>
+  <div class="card-body">
+    <div class="card-title">Play with Kubernetes</div>
+    <div class="card-desc">Real multi-node K8s cluster in the browser. 4 hours per session.</div>
+    <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-advanced">Advanced</span></div>
+  </div>
+  <div class="card-arrow">›</div>
+</a>
+
+<a class="resource-card clr-purple" href="https://console.aws.amazon.com/console/home" target="_blank">
+  <div class="card-icon">☁️</div>
+  <div class="card-body">
+    <div class="card-title">AWS Free Tier</div>
+    <div class="card-desc">12 months free: EC2, S3, RDS, Lambda. Best real-world cloud practice.</div>
+    <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+  </div>
+  <div class="card-arrow">›</div>
+</a>
+
+<a class="resource-card clr-pink" href="https://cloud.google.com/free" target="_blank">
+  <div class="card-icon">🌐</div>
+  <div class="card-body">
+    <div class="card-title">GCP Free Tier</div>
+    <div class="card-desc">$300 credit + always-free products including GKE, Cloud Run & more.</div>
+    <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-intermediate">Intermediate</span></div>
+  </div>
+  <div class="card-arrow">›</div>
+</a>
+
+<a class="resource-card clr-cyan" href="https://www.katacoda.com" target="_blank">
+  <div class="card-icon">🐱</div>
+  <div class="card-body">
+    <div class="card-title">O'Reilly Katacoda</div>
+    <div class="card-desc">Scenario-based interactive DevOps labs with guided walkthroughs.</div>
+    <div class="card-tags"><span class="tag tag-free">Free</span><span class="tag tag-beginner">Beginner</span></div>
+  </div>
+  <div class="card-arrow">›</div>
+</a>
+```
+
+  </div>
+
+</div><!-- end container -->
+
+<!-- BOTTOM NAV -->
+
+<div class="bottom-nav">
+  <button class="nav-btn active" id="btn-resources" onclick="showView('resources')">
+    <span class="nav-icon">🗂️</span>Resources
+  </button>
+  <button class="nav-btn" id="btn-roadmap" onclick="showView('roadmap')">
+    <span class="nav-icon">🗺️</span>Roadmap
+  </button>
+  <button class="nav-btn" id="btn-labs" onclick="showView('labs')">
+    <span class="nav-icon">🧪</span>Labs
+  </button>
+</div>
+
+<script>
+function showView(name) {
+  document.querySelectorAll('.section-content').forEach(el => el.classList.remove('visible'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('visible');
+  document.getElementById('btn-' + name).classList.add('active');
+}
+
+function filterPhase(phase, el) {
+  document.querySelectorAll('.phase-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.resource-card[data-phase]').forEach(card => {
+    if (phase === 'all' || card.dataset.phase === phase || card.dataset.phase === 'all') {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>
